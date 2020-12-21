@@ -1,6 +1,5 @@
 package com.udacity.jwdnd.course1.cloudstorage.dbentities;
 
-import java.sql.Blob;
 import java.util.Arrays;
 
 public class Files {
