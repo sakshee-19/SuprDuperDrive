@@ -24,6 +24,9 @@
                 <span th:unless="${logout}" th:if="${errorMsg}">Click <a th:href="@{/home}">here</a> to continue.</span>
                 <span th:if="${logout}">Click <a th:href="@{/login}">here</a> to login</span>
             </div>
+            <div th:if="${fileP}"  th:file="${fileUpload}">
+
+            </div>
         </div>
     </body>
 </html>

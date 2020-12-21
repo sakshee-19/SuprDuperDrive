@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.dbentities.Credentials;
+import com.udacity.jwdnd.course1.cloudstorage.dbentities.CredentialsForm;
 import com.udacity.jwdnd.course1.cloudstorage.mappers.CredentialsMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,11 +23,23 @@ public class CredentialsService {
     @Autowired
     private EncryptionService encryptionService;
 
-    public List<Credentials> findAllCredentials() {
+    public List<CredentialsForm> findAllCredentials() {
         logger.info("**START** getAllCredentials");
         List<Credentials> credentialsList = credentialsMapper.findAllCredentials();
+        List<CredentialsForm> credentialsFormsList = new ArrayList<>();
+        for(Credentials cred : credentialsList) {
+            CredentialsForm form = new CredentialsForm();
+            form.setCredentialId(cred.getCredentialId());
+            form.setDisplayPassword(encryptionService.decryptValue(cred.getPassword(), cred.getKey()));
+            form.setPassword(cred.getPassword());
+            form.setUrl(cred.getUrl());
+            form.setUserId(cred.getUserId());
+            form.setUsername(cred.getUsername());
+
+            credentialsFormsList.add(form);
+        }
         logger.info("**END** getAllCredentials ");
-        return credentialsList;
+        return credentialsFormsList;
     }
 
     public Credentials findCredentialById(Integer credentialId) {

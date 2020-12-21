@@ -21,4 +21,7 @@ public interface FilesMapper {
 
     @Update("UPDATE FILES SET filename=#{fileName}, contenttype=#{contentType}, filesize=#{fileSize},userid= #{userId} WHERE fileId=#{fileId})")
     public void updateFiles(Files files);
+
+    @Select("SELECT * from FILES WHERE fileid=#{fileId}")
+    Files getFileById(String fileId);
 }
