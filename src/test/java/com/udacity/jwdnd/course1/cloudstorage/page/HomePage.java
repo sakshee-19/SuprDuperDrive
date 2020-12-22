@@ -14,8 +14,15 @@ public class HomePage {
     @FindBy(id = "logoutBtn")
     private WebElement logoutBtn;
 
+    @FindBy(id = "credentialTable")
+    private WebElement credentialTable;
+
     @FindBy(id = "nav-notes-tab")
     private WebElement notesTab;
+
+    public WebElement getNotesTab() {
+        return notesTab;
+    }
 
     @FindBy(id = "note-title")
     private WebElement noteTitle;
@@ -32,6 +39,10 @@ public class HomePage {
     @FindBy(id = "nav-credentials-tab")
     private WebElement credTab;
 
+    public WebElement getCredTab() {
+        return credTab;
+    }
+
     @FindBy(className = "noteTitle")
     private WebElement firstNoteTitle;
 
@@ -44,8 +55,19 @@ public class HomePage {
     @FindBy(id = "addNewCredBtn")
     private WebElement addNewCredBtn;
 
+    @FindBy(id = "userTable")
+    private WebElement userTable;
+
+    public WebElement getUserTable() {
+        return userTable;
+    }
+
     @FindBy(className = "editNote")
     private WebElement editNoteBtn;
+
+    public WebElement getEditNoteBtn() {
+        return editNoteBtn;
+    }
 
     @FindBy(className = "editCred")
     private WebElement firstEditCredBtn;
@@ -97,12 +119,12 @@ public class HomePage {
     }
 
     public void logout(){
+        try { Thread.sleep(1000); } catch (Exception e){ }
         logoutBtn.click();
     }
 
     public void openNote() {
         notesTab.click();
-        try { Thread.sleep(1000); } catch (Exception e){ }
     }
 
     public void openCredTab() {
@@ -180,7 +202,82 @@ public class HomePage {
         deleteCredBtn1.click();
     }
 
-//    @FindBy(id = "logoutBtn")
+    public WebElement getLogoutBtn() {
+        return logoutBtn;
+    }
+
+    public WebElement getNoteTitle() {
+        return noteTitle;
+    }
+
+    public WebElement getNoteDesc() {
+        return noteDesc;
+    }
+
+    public WebElement getSaveNote() {
+        return saveNote;
+    }
+
+    public WebElement getDeleteNote() {
+        return deleteNote;
+    }
+
+    public WebElement getFirstNoteTitle() {
+        return firstNoteTitle;
+    }
+
+    public WebElement getFirstNoteDescription() {
+        return firstNoteDescription;
+    }
+
+    public WebElement getOpenNoteModalBtn() {
+        return openNoteModalBtn;
+    }
+
+    public WebElement getAddNewCredBtn() {
+        return addNewCredBtn;
+    }
+
+    public WebElement getFirstEditCredBtn() {
+        return firstEditCredBtn;
+    }
+
+    public WebElement getDeleteCredBtn1() {
+        return deleteCredBtn1;
+    }
+
+    public WebElement getCredUrl() {
+        return credUrl;
+    }
+
+    public WebElement getCredUser() {
+        return credUser;
+    }
+
+    public WebElement getCredPass() {
+        return credPass;
+    }
+
+    public WebElement getCredSubmit() {
+        return credSubmit;
+    }
+
+    public WebElement getFirstCredUrl() {
+        return firstCredUrl;
+    }
+
+    public WebElement getFirstCredUser() {
+        return firstCredUser;
+    }
+
+    public WebElement getFirstCredPass() {
+        return firstCredPass;
+    }
+
+    public WebElement getCredentialTable() {
+        return credentialTable;
+    }
+    //    @FindBy(id = "logoutBtn")
 //    private WebElement logoutBtn;
 //
 //    @FindBy(id = "logoutBtn")

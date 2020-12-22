@@ -120,7 +120,7 @@ public class HomeController {
 
     @PostMapping("/file/save")
     public String saveFile(Authentication auth, @ModelAttribute("fileForm") FileForm fileForm, Model model) {
-        logger.info("**START** saveFile files={}", fileForm);
+        logger.info("**START** saveFile files={} size={}", fileForm, fileForm.getFileUpload().getSize());
         String username = auth.getName();
         Users users = userService.findUserByUsername(username);
         if (users == null) {
@@ -131,8 +131,18 @@ public class HomeController {
         Files files = new Files();
         files.setContentType(fileForm.getFileUpload().getContentType());
         files.setFileSize(String.valueOf(fileForm.getFileUpload().getSize()));
-        files.setUserId(users.getUserId());
         files.setFileName(fileForm.getFileUpload().getOriginalFilename());
+        files.setUserId(users.getUserId());
+        if (files.getFileName().trim().equals("") || fileForm.getFileUpload().getSize() == 0){
+            model.addAttribute("errorMsg", "Could not upload empty file, please upload valid file");
+            return "result";
+        }
+        Files fileExist = fileService.findFileByName(files.getFileName());
+        logger.info("File present in DB ={}", fileExist);
+        if (fileExist != null){
+            model.addAttribute("errorMsg", "Could not upload duplicate file, please change the name");
+            return "result";
+        }
         try {
             files.setFileData(fileForm.getFileUpload().getBytes());
         } catch (Exception e){

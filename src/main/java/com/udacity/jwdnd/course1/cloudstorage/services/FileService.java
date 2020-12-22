@@ -54,4 +54,8 @@ public class FileService {
     public Files findFileById(String fileId) {
         return filesMapper.getFileById(fileId);
     }
+
+    public Files findFileByName(String fileName) {
+        return filesMapper.getFileByName(fileName);
+    }
 }

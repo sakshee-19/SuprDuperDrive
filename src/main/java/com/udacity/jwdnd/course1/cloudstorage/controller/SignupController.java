@@ -32,11 +32,12 @@ public class SignupController {
         model.addAttribute("signupSuccess", false);
         if(!userService.isUserAvailable(users.getUsername())){
             model.addAttribute("signupError", "user already present");
+            return "signup";
         } else {
             userService.createUser(users);
             model.addAttribute("signupSuccess", true);
         }
         logger.info("**END** register User");
-        return "signup";
+        return "login";
     }
 }

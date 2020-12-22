@@ -24,4 +24,7 @@ public interface FilesMapper {
 
     @Select("SELECT * from FILES WHERE fileid=#{fileId}")
     Files getFileById(String fileId);
+
+    @Select("SELECT * from FILES WHERE filename=#{fileName}")
+    Files getFileByName(String fileName);
 }
