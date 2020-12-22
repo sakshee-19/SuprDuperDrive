@@ -66,7 +66,6 @@ public class Files {
                 ", contentType='" + contentType + '\'' +
                 ", fileSize='" + fileSize + '\'' +
                 ", userId=" + userId +
-                ", fileData=" + Arrays.toString(fileData) +
                 '}';
     }
 }
