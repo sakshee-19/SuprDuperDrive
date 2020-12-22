@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.flow;
 
+import com.udacity.jwdnd.course1.cloudstorage.dbentities.CredentialsForm;
 import com.udacity.jwdnd.course1.cloudstorage.dbentities.Notes;
 import com.udacity.jwdnd.course1.cloudstorage.page.HomePage;
 import com.udacity.jwdnd.course1.cloudstorage.page.LoginPage;
@@ -22,7 +23,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class NoteFlowTest {
+public class CredentialFlowTest {
     @LocalServerPort
     private Integer port;
 
@@ -74,10 +75,10 @@ public class NoteFlowTest {
     }
 
     @Test
-    public void testCreateNote()  {
+    public void testCreateCredentials()  {
         assertEquals("Home", driver.getTitle());
 
-        homePage.createNewNote("test note","TODOS");
+        homePage.createNewCredential("sa@adobe.com","sak", "saku");
         assertEquals("Result", driver.getTitle());
 
         resultPage = new ResultPage(driver);
@@ -85,30 +86,18 @@ public class NoteFlowTest {
         resultPage.goToHome1();
         if(!driver.getTitle().equals("Home"))
             driver.get(initUrl+"/home");
-
-
         marker = wait.until(webDriver -> webDriver.findElement(By.id("contentDiv")));
-        homePage.openNote();
+        homePage.openCredTab();
         try { Thread.sleep(1000); } catch (Exception e){ }
-        Notes note = homePage.getFirstNote();
-        assertEquals("TODOS", note.getNoteDescription() );
-        assertEquals("test note", note.getNoteTitle() );
-
+        CredentialsForm credentialsForm = homePage.getFirstCredential();
+        assertEquals("sa@adobe.com", credentialsForm.getUrl() );
+        assertEquals("sak", credentialsForm.getUsername() );
+        assertNotNull(credentialsForm.getPassword() );
     }
 
     @Test
-    public void testEditNote(){
-        homePage.createNewNote("test note","TODOS");
-        resultPage = new ResultPage(driver);
-        resultPage.goToHome1();
-        if(!driver.getTitle().equals("Home"))
-            driver.get(initUrl+"/home");
-
-        marker = wait.until(webDriver -> webDriver.findElement(By.id("contentDiv")));
-        homePage.openNote();
-        try { Thread.sleep(1000); } catch (Exception e){ }
-
-        homePage.editNote("test note", "TODOS2");
+    public void testEditCredential(){
+        homePage.createNewCredential("sa@adobe.com","sak", "saku");
         resultPage = new ResultPage(driver);
         marker = wait.until(webDriver -> webDriver.findElement(By.id("continue")));
         resultPage.goToHome1();
@@ -116,41 +105,48 @@ public class NoteFlowTest {
             driver.get(initUrl+"/home");
 
         marker = wait.until(webDriver -> webDriver.findElement(By.id("contentDiv")));
-        homePage.openNote();
-
+        homePage.openCredTab();
         try { Thread.sleep(1000); } catch (Exception e){ }
-        Notes note = homePage.getFirstNote();
 
-        assertEquals("TODOS2", note.getNoteDescription() );
-        assertEquals("test note", note.getNoteTitle() );
+        homePage.editCredentials("joc@gmail.com", "sak", "saku");
+        resultPage = new ResultPage(driver);
+        marker = wait.until(webDriver -> webDriver.findElement(By.id("continue")));
+        resultPage.goToHome1();
+        if(!driver.getTitle().equals("Home"))
+            driver.get(initUrl+"/home");
+        marker = wait.until(webDriver -> webDriver.findElement(By.id("contentDiv")));
+        homePage.openCredTab();
+        try { Thread.sleep(1000); } catch (Exception e){ }
 
+        CredentialsForm credentialsForm = homePage.getFirstCredential();
+        assertEquals("joc@gmail.com", credentialsForm.getUrl() );
+        assertEquals("sak", credentialsForm.getUsername() );
+        assertNotNull(credentialsForm.getPassword() );
     }
 
     @Test
-    public void testDeleteNote(){
-        homePage.createNewNote("test note","TODOS");
+    public void testDeleteCredential(){
+        homePage.createNewCredential("sa@adobe.com","sak", "saku");
         resultPage = new ResultPage(driver);
         marker = wait.until(webDriver -> webDriver.findElement(By.id("continue")));
         resultPage.goToHome1();
         if(!driver.getTitle().equals("Home"))
             driver.get(initUrl+"/home");
-        marker = wait.until(webDriver -> webDriver.findElement(By.id("contentDiv")));
-        homePage.openNote();
+        try { Thread.sleep(1000); } catch (Exception e){ }
+        homePage.openCredTab();
         try { Thread.sleep(1000); } catch (Exception e){ }
 
-        homePage.deleteNoteClick();
+        homePage.deleteCredClick();
         resultPage = new ResultPage(driver);
         marker = wait.until(webDriver -> webDriver.findElement(By.id("continue")));
         resultPage.goToHome1();
-
-        try { Thread.sleep(1000); } catch (Exception e){ }
         if(!driver.getTitle().equals("Home"))
             driver.get(initUrl+"/home");
+        try { Thread.sleep(1000); } catch (Exception e){ }
         System.out.println(driver.getCurrentUrl());
-        homePage.openNote();
+        homePage.openCredTab();
         try { Thread.sleep(1000); } catch (Exception e){ }
 
-        assertThrows(NoSuchElementException.class, ()->homePage.getFirstNote());
-
+        assertThrows(NoSuchElementException.class, ()->homePage.getFirstCredential());
     }
 }

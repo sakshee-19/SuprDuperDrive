@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.page;
 
+import com.udacity.jwdnd.course1.cloudstorage.dbentities.CredentialsForm;
 import com.udacity.jwdnd.course1.cloudstorage.dbentities.Notes;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -40,9 +41,39 @@ public class HomePage {
     @FindBy(id = "addNoteBtn")
     private WebElement openNoteModalBtn;
 
+    @FindBy(id = "addNewCredBtn")
+    private WebElement addNewCredBtn;
+
     @FindBy(className = "editNote")
     private WebElement editNoteBtn;
 
+    @FindBy(className = "editCred")
+    private WebElement firstEditCredBtn;
+
+    @FindBy(className = "deleteCred")
+    private WebElement deleteCredBtn1;
+
+    @FindBy(id = "credential-url")
+    private WebElement credUrl;
+
+    @FindBy(id = "credential-username")
+    private WebElement credUser;
+
+    @FindBy(id = "credential-password")
+    private WebElement credPass;
+
+    @FindBy(id = "credFormSubmit")
+    private WebElement credSubmit;
+
+
+    @FindBy(className = "cred-url")
+    private WebElement firstCredUrl;
+
+    @FindBy(className = "cred-user")
+    private WebElement firstCredUser;
+
+    @FindBy(className = "cred-pass")
+    private WebElement firstCredPass;
 
 
     public HomePage(WebDriver driver)
@@ -57,40 +88,51 @@ public class HomePage {
         return result;
     }
 
+    public CredentialsForm getFirstCredential() {
+        CredentialsForm result = new CredentialsForm();
+        result.setUsername(firstCredUser.getText());
+        result.setUrl(firstCredUrl.getText());
+        result.setPassword(firstCredPass.getText());
+        return result;
+    }
+
     public void logout(){
         logoutBtn.click();
     }
 
     public void openNote() {
         notesTab.click();
-        try
-        {
-            Thread.sleep(1000);
-        } catch (Exception e){
+        try { Thread.sleep(1000); } catch (Exception e){ }
+    }
 
-        }
-
+    public void openCredTab() {
+        System.out.println(credTab.getAttribute("aria-selected"));
+        if(!credTab.getAttribute("aria-selected").equals("true"))
+            credTab.click();
+        try { Thread.sleep(1000); } catch (Exception e){ }
     }
 
     public void createNewNote(String title, String desc) {
         notesTab.click();
-        try
-        {
-            Thread.sleep(1000);
-        } catch (Exception e){
-
-        }
+        try { Thread.sleep(1000); } catch (Exception e){ }
         System.out.println(openNoteModalBtn.getText());
         openNoteModalBtn.click();
-        try
-        {
-            Thread.sleep(1000);
-        } catch (Exception e){
-
-        }
+        try { Thread.sleep(1000); } catch (Exception e){ }
         this.noteTitle.sendKeys(title);
         this.noteDesc.sendKeys(desc);
         saveNote.click();
+    }
+
+
+    public void createNewCredential(String url, String user, String pass) {
+        openCredTab();
+        System.out.println(addNewCredBtn.getText());
+        addNewCredBtn.click();
+        try { Thread.sleep(1000); } catch (Exception e){ }
+        this.credUrl.sendKeys(url);
+        this.credPass.sendKeys(pass);
+        this.credUser.sendKeys(user);
+        credSubmit.click();
     }
 
     public void editNote(String title, String desc){
@@ -105,14 +147,37 @@ public class HomePage {
             this.noteTitle.sendKeys(title);
             this.noteDesc.sendKeys(desc);
             saveNote.click();
-        } catch (Exception e){
+        } catch (Exception e){ }
+    }
 
-        }
+
+    public void editCredentials(String url, String user, String pass){
+        try
+        {
+            credTab.click();
+            Thread.sleep(1000);
+            firstEditCredBtn.click();
+            Thread.sleep(1000);
+            this.credUrl.clear();
+            this.credUser.clear();
+            this.credPass.clear();
+            this.credUrl.sendKeys(url);
+            this.credUser.sendKeys(user);
+            this.credPass.sendKeys(pass);
+
+            Thread.sleep(1000);
+            credSubmit.click();
+        } catch (Exception e){ }
     }
 
     public void deleteNoteClick(){
         System.out.println(deleteNote.getText());
         deleteNote.click();
+    }
+
+    public void deleteCredClick(){
+        System.out.println(deleteCredBtn1.getText());
+        deleteCredBtn1.click();
     }
 
 //    @FindBy(id = "logoutBtn")
