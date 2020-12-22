@@ -61,7 +61,6 @@ public class UserFlowTest {
 
         signupPage.clickLogin();
 
-        driver.get(initUrl+"/login");
         loginPage = new LoginPage(driver);
 
         loginPage.login("saku", "sakus");

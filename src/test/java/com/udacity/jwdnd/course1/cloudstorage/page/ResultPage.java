@@ -1,7 +1,9 @@
 package com.udacity.jwdnd.course1.cloudstorage.page;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class ResultPage {
     @FindBy(id = "login")
@@ -12,6 +14,10 @@ public class ResultPage {
 
     @FindBy(id = "continue2")
     private WebElement continue2;
+
+    public ResultPage(WebDriver driver){
+        PageFactory.initElements(driver, this);
+    }
 
     public void goToLogin() {
         login.click();
