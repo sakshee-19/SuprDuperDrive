@@ -17,9 +17,9 @@ public class NoteService {
     @Autowired
     NotesMapper notesMapper;
 
-    public List<Notes> getAllNotes() {
+    public List<Notes> getAllNotes(Integer userId) {
         logger.info("**START** getAllNotes");
-        List<Notes> notesList = notesMapper.findAllNotes();
+        List<Notes> notesList = notesMapper.findAllNotes(userId);
         logger.info("**END** getAllNotes");
         return notesList;
     }

@@ -23,9 +23,9 @@ public class CredentialsService {
     @Autowired
     private EncryptionService encryptionService;
 
-    public List<CredentialsForm> findAllCredentials() {
+    public List<CredentialsForm> findAllCredentials(Integer userId) {
         logger.info("**START** getAllCredentials");
-        List<Credentials> credentialsList = credentialsMapper.findAllCredentials();
+        List<Credentials> credentialsList = credentialsMapper.findAllCredentials(userId);
         List<CredentialsForm> credentialsFormsList = new ArrayList<>();
         for(Credentials cred : credentialsList) {
             CredentialsForm form = new CredentialsForm();
