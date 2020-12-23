@@ -38,8 +38,12 @@ public class HomeController {
     private UserService userService;
 
     @GetMapping
-    public String getHome(@ModelAttribute("credentials") Credentials credentials, Model model) {
-        getAllItems(model);
+    public String getHome(Authentication auth, @ModelAttribute("credentials") Credentials credentials, Model model) {
+        logger.info("**START getHome auth={}",auth);
+        if(auth == null || auth.getName() == null){
+            return "login";
+        }
+        getAllItems(auth, model);
         return "home";
     }
 
@@ -189,15 +193,18 @@ public class HomeController {
     }
 
 
-    public void getAllItems(Model model) {
+    public void getAllItems(Authentication auth, Model model) {
         logger.info("**START** getAllItems");
-        List<CredentialsForm> credentialsList = credentialsService.findAllCredentials();
-        model.addAttribute("credentialsList", credentialsList);
-        List<Notes> notesList = noteService.getAllNotes();
-        model.addAttribute("notesList", notesList);
-        List<Files> filesList = fileService.getAllFiles();
-        model.addAttribute("filesList", filesList);
-
+        if(auth != null && auth.getName() != null) {
+            Users user = userService.findUserByUsername(auth.getName());
+            if(user == null) return;
+            List<CredentialsForm> credentialsList = credentialsService.findAllCredentials(user.getUserId());
+            model.addAttribute("credentialsList", credentialsList);
+            List<Notes> notesList = noteService.getAllNotes(user.getUserId());
+            model.addAttribute("notesList", notesList);
+            List<Files> filesList = fileService.getAllFiles(user.getUserId());
+            model.addAttribute("filesList", filesList);
+        }
         logger.info("**END** getAllItems");
     }
 }

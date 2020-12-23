@@ -7,8 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface CredentialsMapper {
-    @Select("SELECT * from Credentials")
-    public List<Credentials> findAllCredentials();
+    @Select("SELECT * from Credentials WHERE userid=#{userId}")
+    public List<Credentials> findAllCredentials(Integer userId);
 
     @Insert("INSERT into Credentials (url, username, key, password ,userid) values (#{url}, #{username}, #{key}, #{password} ,#{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "credentialId")

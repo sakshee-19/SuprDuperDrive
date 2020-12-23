@@ -17,9 +17,9 @@ public class FileService {
     @Autowired
     FilesMapper filesMapper;
 
-    public List<Files> getAllFiles() {
+    public List<Files> getAllFiles(Integer userId) {
         logger.info("**START** getAllFiles");
-        List<Files> FilesList = filesMapper.findAllFiles();
+        List<Files> FilesList = filesMapper.findAllFiles(userId);
         logger.info("**END** getAllFiles");
         return FilesList;
     }
